@@ -1,1 +1,0 @@
-g++ Game.cpp -lSDL2 -lSDL2main -o "build/win_x86_64/game"
