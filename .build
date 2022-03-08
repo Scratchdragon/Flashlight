@@ -1,13 +1,13 @@
-echo "Building linux$(arch) executable (linux_$(arch))"
-mkdir "build/linux_$(arch)" || true
-g++ Game.cpp -lSDL2 -lSDL2main -o "build/linux_$(arch)/game"
+export compfile=$(uname -s)_$(uname -m)
 
-echo "Building i686 executable (.exe win_i686)"
-mkdir "build/win_i686" || true
-/usr/bin/i686-w64-mingw32-g++ Game.cpp -lSDL2 -lSDL2main -o build/win_i686/game.exe
+echo "Building $(uname -m) executable ($compfile)"
+mkdir "build/$compfile"
+g++ Game.cpp -lSDL2 -lSDL2main -o "build/$compfile/game" || g++ Game.cpp -lSDL2 -o "build/$compfile/game" || echo "E: Compile failed"
+
+#echo "Building i686 executable (.exe win_i686)"
+#mkdir "build/win_i686" || true
+#/usr/bin/i686-w64-mingw32-g++ Game.cpp -lSDL2 -lSDL2main -o build/win_i686/game.exe
 
 #echo "Building x86_64 executable (.exe win_x86_64)"
 #mkdir "build/win_x86_64" || true
 #/usr/bin/x86_64-w64-mingw32-g++ Game.cpp -lSDL2 -lSDL2main -o build/win_x86_64/game.exe
-
-for file in build/*; do zip ${file%.*}.zip $file; done
