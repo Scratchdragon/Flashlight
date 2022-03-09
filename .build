@@ -4,6 +4,9 @@ echo "Building $(uname -m) executable ($compfile)"
 mkdir "build/$compfile"
 g++ Game.cpp -lSDL2 -lSDL2main -o "build/$compfile/game" || g++ Game.cpp -lSDL2 -o "build/$compfile/game" || echo "E: Compile failed"
 
+cp -r images build/$compfile/images
+cp -r structures build/$compfile/structures
+
 #echo "Building i686 executable (.exe win_i686)"
 #mkdir "build/win_i686" || true
 #/usr/bin/i686-w64-mingw32-g++ Game.cpp -lSDL2 -lSDL2main -o build/win_i686/game.exe
