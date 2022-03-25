@@ -1,1 +1,1 @@
-run="chmod +x .build;./.build"
+run="chmod +x .build;./.build;./build/$(uname -s)_$(uname -m)/game"

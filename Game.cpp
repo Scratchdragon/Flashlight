@@ -21,7 +21,41 @@ struct chunk {
 	char x,y = 0;
 	char data[32][32];
 	int chunkid = 0;
-}testchunk,loadarea;
+}loadarea;
+
+class STRUCT_MANAGER {
+	struct structure {
+		char rarity = 0; //How many to place per world
+		chunk chunkdata;
+		string name = "_STRUCTURE_NULL_";
+	}home;
+
+	void load() {
+		//Temp hard coding for home
+		for(int i = 0;i<32;++i) {
+			home.chunkdata.data[0][i] = 1;
+		}
+		for(int i = 0;i<32;++i) {
+			home.chunkdata.data[31][i] = 1;
+		}
+		for(int i = 0;i<32;++i) {
+			home.chunkdata.data[i][0] = 1;
+		}
+		for(int i = 0;i<32;++i) {
+			home.chunkdata.data[i][31] = 1;
+		}
+		home.chunkdata.data[15][31] = 0;
+		home.chunkdata.data[16][31] = 0;
+		home.chunkdata.data[15][0] = 0;
+		home.chunkdata.data[16][0] = 0;
+		home.chunkdata.data[31][15] = 0;
+		home.chunkdata.data[31][16] = 0;
+		home.chunkdata.data[0][15] = 0;
+		home.chunkdata.data[0][16] = 0;
+		home.chunkdata.chunkid = 1;
+		home.chunkdata.name = "House";
+	}
+}StructManager;
 
 int WHEIGHT = 700;
 int WWIDTH = 1240;
@@ -170,30 +204,13 @@ void render_overlay() {
 
 int main(int argv, char ** argc)
 {
+	std::cout << "Loading structures... (build/structures/*)\n";
 	srand (time(NULL));
-	for(int i = 0;i<32;++i) {
-		testchunk.data[0][i] = 1;
-	}
-	for(int i = 0;i<32;++i) {
-		testchunk.data[31][i] = 1;
-	}
-	for(int i = 0;i<32;++i) {
-		testchunk.data[i][0] = 1;
-	}
-	for(int i = 0;i<32;++i) {
-		testchunk.data[i][31] = 1;
-	}
-	testchunk.data[15][31] = 0;
-	testchunk.data[16][31] = 0;
-	testchunk.data[15][0] = 0;
-	testchunk.data[16][0] = 0;
-	testchunk.data[31][15] = 0;
-	testchunk.data[31][16] = 0;
-	testchunk.data[0][15] = 0;
-	testchunk.data[0][16] = 0;
-	testchunk.chunkid = 1;
+	StructureManager.load();
 	
-	world[0][0] = testchunk;
+	std::cout << "Loaded Structures.\n";
+	
+	world[0][0] = StructureManager.home.chunkdata;
 
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
