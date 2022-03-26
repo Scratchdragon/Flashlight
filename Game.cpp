@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <string>
 #include <time.h> 
+#include <dirent.h>
+#include <sys/types.h>
 
 #define scale 3.5
 
@@ -23,15 +25,21 @@ struct chunk {
 	int chunkid = 0;
 }loadarea;
 
-class STRUCT_MANAGER {
+class STRUCTURE_MANAGER {
 	struct structure {
 		char rarity = 0; //How many to place per world
 		chunk chunkdata;
 		string name = "_STRUCTURE_NULL_";
-	}home;
+	};
+
+	public:
+	//Structures
+	structure null;
+	structure structures[1];
 
 	void load() {
 		//Temp hard coding for home
+		structure home;
 		for(int i = 0;i<32;++i) {
 			home.chunkdata.data[0][i] = 1;
 		}
@@ -53,9 +61,11 @@ class STRUCT_MANAGER {
 		home.chunkdata.data[0][15] = 0;
 		home.chunkdata.data[0][16] = 0;
 		home.chunkdata.chunkid = 1;
-		home.chunkdata.name = "House";
+		home.name = "House";
+		
+		structures[0] = home;
 	}
-}StructManager;
+}StructureManager;
 
 int WHEIGHT = 700;
 int WWIDTH = 1240;
@@ -202,15 +212,14 @@ void render_overlay() {
 	}
 }
 
-int main(int argv, char ** argc)
-{
+int main(int argv, char ** argc) {
 	std::cout << "Loading structures... (build/structures/*)\n";
 	srand (time(NULL));
 	StructureManager.load();
 	
 	std::cout << "Loaded Structures.\n";
 	
-	world[0][0] = StructureManager.home.chunkdata;
+	world[0][0] = StructureManager.structures[0].chunkdata;
 
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
